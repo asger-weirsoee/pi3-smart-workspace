@@ -1,27 +1,26 @@
 from setuptools import setup
-
 with open('README.rst', 'r') as fh:
     long_description = fh.read()
-with open('requirements.txt', 'r') as file:
-    required = []
-    for x in file.readline():
-        required.append(x)
-
 
 setup(
-    name="pi3-smart-workspace",
-    description="A smart switcher for multiple workspaces.",
+    name='pi3-smart-workspace',
+    version='0.0.1',
+    packages=['pi3'],
+    url='https://github.com/GeneralDenmark/PyOutputHandler',
+    license='Apache-2.0 License ',
+    install_requires=[
+        "evdev==1.3.0",
+        "i3ipc==2.2.1",
+        "pynput==1.7.1",
+        "python-xlib==0.27",
+        "six==1.15.0"
+    ],
+    entry_points={"console_scripts": ["pi3-smart-workspace=pi3.smart_workspace:main"]},
+    scripts=["pi3/smart_workspace.py"],
     long_description=long_description,
-    version="0.0.1",
-    license="Apache License",
-    author="Asger Geel Weirsøe",
-    author_email="asger@weirsoe.dk",
-    url="https://github.com/GeneralDenmark/PyOutputHandler",
-    install_requires=required,
-    packages=["pi3"],
-    zip_safe=True,
-    entry_points={"console_scripts": ["pi3-smart-workspace = pi3.smart-workspace:main"]},
-    scripts=["pi3/smart-workspace.py"],
+    author='Asger Geel Weirsøe',
+    author_email='asger@weirsoe.dk',
+    description='Simple program that looks through the i3 config and finds the bound workspaces for each output, and then opening that workspace on the output, that the mouse is currently on.',
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "License :: OSI Approved :: Apache Software License",

@@ -23,7 +23,7 @@ Install using pip (recommended):
 
 ::
 
-   pip install pi3-switch
+   pip install pi3-smart-workspace
 
 Example config to be inserted into your i3 config.
 

@@ -1,0 +1,3 @@
+[console_scripts]
+pi3-smart-workspace = pi3.smart_workspace:main
+

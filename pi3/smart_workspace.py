@@ -1,6 +1,5 @@
 from i3ipc import Connection
 import sys
-from pprint import pprint
 import pynput
 import re
 import argparse
@@ -28,13 +27,11 @@ class WorkSpacer:
                     re.finditer(r'set (\$[a-zA-Z]+) ((HDMI|DP|VGA)-\d)', self.config, re.MULTILINE), start=1
             ):
                 config_outputs[match.group(1)] = match.group(2)
-            pprint(config_outputs)
             config_workspace_names = {}
             for matchNum, match in enumerate(
                 re.finditer(r'set (\$.*) (\d.*)', self.config, re.MULTILINE)
             ):
                 config_workspace_names[match.group(1)] = match.group(2)
-            pprint(config_workspace_names)
             for matchNum, match in enumerate(
                 re.finditer(r'workspace (\$.*) output (\$.*)', self.config, re.MULTILINE)
             ):
@@ -88,7 +85,6 @@ def main():
     ws.run()
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
 

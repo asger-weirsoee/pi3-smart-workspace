@@ -1,0 +1,10 @@
+README.rst
+setup.py
+pi3/__init__.py
+pi3/smart_workspace.py
+pi3_smart_workspace.egg-info/PKG-INFO
+pi3_smart_workspace.egg-info/SOURCES.txt
+pi3_smart_workspace.egg-info/dependency_links.txt
+pi3_smart_workspace.egg-info/entry_points.txt
+pi3_smart_workspace.egg-info/requires.txt
+pi3_smart_workspace.egg-info/top_level.txt
