@@ -29,7 +29,7 @@ Example config to be inserted into your i3 config.
 
 ::
 
-        # Displays
+    	# Displays
 	set $primary DP-2
 	set $left HDMI-0
 	set $right HDMI-1
@@ -90,15 +90,35 @@ Example config to be inserted into your i3 config.
 	workspace $RightWs7 output $right
 	workspace $RightWs8 output $right
 
-	# Binded
-	bindsym $mod+Mod1+1 exec pi3-smart-workspace -i 1
-	bindsym $mod+Mod1+2 exec pi3-smart-workspace -i 2
-	bindsym $mod+Mod1+3 exec pi3-smart-workspace -i 3
-	bindsym $mod+Mod1+4 exec pi3-smart-workspace -i 4
-	bindsym $mod+Mod1+5 exec pi3-smart-workspace -i 5
-	bindsym $mod+Mod1+6 exec pi3-smart-workspace -i 6
-	bindsym $mod+Mod1+7 exec pi3-smart-workspace -i 7
-	bindsym $mod+Mod1+8 exec pi3-smart-workspace -i 8
+	# Shift workspace
+	bindsym $mod+1 exec pi3-smart-workspace -i 1
+	bindsym $mod+2 exec pi3-smart-workspace -i 2
+	bindsym $mod+3 exec pi3-smart-workspace -i 3
+	bindsym $mod+4 exec pi3-smart-workspace -i 4
+	bindsym $mod+5 exec pi3-smart-workspace -i 5
+	bindsym $mod+6 exec pi3-smart-workspace -i 6
+	bindsym $mod+7 exec pi3-smart-workspace -i 7
+	bindsym $mod+8 exec pi3-smart-workspace -i 8
+
+	# Move focused container to workspace
+	bindsym $mod+Ctrl+1 exec pi3-smart-workspace -i 1 -s
+	bindsym $mod+Ctrl+2 exec pi3-smart-workspace -i 2 -s
+	bindsym $mod+Ctrl+3 exec pi3-smart-workspace -i 3 -s
+	bindsym $mod+Ctrl+4 exec pi3-smart-workspace -i 4 -s
+	bindsym $mod+Ctrl+5 exec pi3-smart-workspace -i 5 -s
+	bindsym $mod+Ctrl+6 exec pi3-smart-workspace -i 6 -s
+	bindsym $mod+Ctrl+7 exec pi3-smart-workspace -i 7 -s
+	bindsym $mod+Ctrl+8 exec pi3-smart-workspace -i 8 -s
+
+	# Move to workspace with focused container
+	bindsym $mod+Shift+1 exec pi3-smart-workspace -i 1 -sk
+	bindsym $mod+Shift+2 exec pi3-smart-workspace -i 2 -sk
+	bindsym $mod+Shift+3 exec pi3-smart-workspace -i 3 -sk
+	bindsym $mod+Shift+4 exec pi3-smart-workspace -i 4 -sk
+	bindsym $mod+Shift+5 exec pi3-smart-workspace -i 5 -sk
+	bindsym $mod+Shift+6 exec pi3-smart-workspace -i 6 -sk
+	bindsym $mod+Shift+7 exec pi3-smart-workspace -i 7 -sk
+	bindsym $mod+Shift+8 exec pi3-smart-workspace -i 8 -sk
 
 
 Credits

@@ -7,9 +7,9 @@ import argparse
 
 class WorkSpacer:
 
-    def __init__(self, index):
+    def __init__(self, args):
         self.i3 = None
-        self.index = index
+        self.args = args
         self.workspaces_on_outputs = {}
         self.workspaces = None
         self.outputs = None
@@ -49,7 +49,12 @@ class WorkSpacer:
         self._connect()
         self.mouse_position = self.mouse.position
         self.current_output_name = self._get_workspace_from_courser_position()
-        self.i3.command(f'workspace {self.workspaces_on_outputs[self.current_output_name][self.index]}')
+
+        if self.args.shift:
+            self.i3.command(f'move container to workspace {self.workspaces_on_outputs[self.current_output_name][self.args.index - 1]}')
+            if not self.args.keep_with_it:
+                return
+        self.i3.command(f'workspace {self.workspaces_on_outputs[self.current_output_name][self.args.index - 1]}')
 
     def _get_workspace_from_courser_position(self):
         for output in self.outputs:
@@ -79,10 +84,18 @@ def main():
     parser = argparse.ArgumentParser(
         description="Dynamic changes the workspace, based on what output your cursoer is on."
     )
-    parser.add_argument("-i", "--index", type=int,
+
+    required_group = parser.add_argument_group('Required', '')
+    required_group.add_argument("-i", "--index", type=int, required=True,
                         help="the number index of the workspace that should be openend. 1 =  first workspace in config etc.")
-    ws = WorkSpacer(parser.parse_args().index - 1)
-    ws.run()
+
+    shift_group = parser.add_argument_group('Shift', 'manipulate the active window')
+    shift_group.add_argument("-s", "--shift", action='store_true',
+                        help="if present, moves the current active window to target workspace")
+    shift_group.add_argument('-k', '--keep-with-it', action='store_true',
+                        help='if present, moves with the ')
+
+    WorkSpacer(parser.parse_args()).run()
 
 
 if __name__ == '__main__':
