@@ -29,7 +29,7 @@ Example config to be inserted into your i3 config.
 
 ::
 
-   # Displays
+        # Displays
 	set $primary DP-2
 	set $left HDMI-0
 	set $right HDMI-1
