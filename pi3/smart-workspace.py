@@ -8,9 +8,9 @@ import argparse
 
 class WorkSpacer:
 
-    def __init__(self, args):
+    def __init__(self, index):
         self.i3 = None
-        self.args = args
+        self.index = index
         self.workspaces_on_outputs = {}
         self.workspaces = None
         self.outputs = None
@@ -52,7 +52,7 @@ class WorkSpacer:
         self._connect()
         self.mouse_position = self.mouse.position
         self.current_output_name = self._get_workspace_from_courser_position()
-        self.i3.command(f'workspace {self.workspaces_on_outputs[self.current_output_name][self.args]}')
+        self.i3.command(f'workspace {self.workspaces_on_outputs[self.current_output_name][self.index]}')
 
     def _get_workspace_from_courser_position(self):
         for output in self.outputs:
@@ -83,8 +83,8 @@ def main():
         description="Dynamic changes the workspace, based on what output your cursoer is on."
     )
     parser.add_argument("-i", "--index", type=int,
-                        help="the number index of the workspace that should be openend. 1 = workspace 1 etc.")
-    ws = WorkSpacer(parser.parse_args())
+                        help="the number index of the workspace that should be openend. 1 =  first workspace in config etc.")
+    ws = WorkSpacer(parser.parse_args().index - 1)
     ws.run()
 
 
