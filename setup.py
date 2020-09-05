@@ -18,6 +18,7 @@ setup(
     entry_points={"console_scripts": ["pi3-smart-workspace=pi3.smart_workspace:main"]},
     scripts=["pi3/smart_workspace.py"],
     long_description=long_description,
+    long_description_content_type='text/x-rst',
     author='Asger Geel Weirsøe',
     author_email='asger@weirsoe.dk',
     description='Simple program that looks through the i3 config and finds the bound workspaces for each output, and then opening that workspace on the output, that the mouse is currently on.',

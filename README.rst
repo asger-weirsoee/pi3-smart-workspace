@@ -16,6 +16,7 @@ Usage
 
    requred arguments:
      -i, --index      the number index of the workspace that should be openend. 1 =  first workspace in config etc.
+
 Installation
 ------------
 
@@ -34,7 +35,7 @@ Example config to be inserted into your i3 config.
 	set $left HDMI-0
 	set $right HDMI-1
 
-	# WOrkspaces
+	# Workspaces
 	set $ws1 1:1:Code
 	set $ws2 2:2:Code
 	set $ws3 3:3:Code
