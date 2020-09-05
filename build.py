@@ -15,6 +15,11 @@ def main():
         action='store_true',
         help='Build to pypi.org'
     )
+    group.add_argument(
+        '--check',
+        action='store_true',
+        help='Displays the twine check for dist'
+    )
 
     args = parser.parse_args()
 
@@ -23,7 +28,8 @@ def main():
         subprocess.call(['twine', 'upload', '--config-file', '.pypirc', '--repository', 'testpypi', 'dist/*'])
     elif args.re:
         subprocess.call(['twine', 'upload', '--config-file', '.pypirc', '--repository', 'pypi', 'dist/*'])
-
+    else:
+        subprocess.call(['twine', 'check', 'dist/*'])
 
 if __name__ == '__main__':
     main()
