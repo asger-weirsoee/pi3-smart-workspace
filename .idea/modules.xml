@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/PyOutputHandler.iml" filepath="$PROJECT_DIR$/.idea/PyOutputHandler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pi3-smart-workspace/.idea/pi3-smart-workspace.iml" filepath="$PROJECT_DIR$/../pi3-smart-workspace/.idea/pi3-smart-workspace.iml" />
     </modules>
   </component>
 </project>

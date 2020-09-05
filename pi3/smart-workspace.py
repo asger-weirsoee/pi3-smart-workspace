@@ -1,15 +1,9 @@
-from i3ipc import connection, Connection
-import logging
+from i3ipc import Connection
 import sys
 from pprint import pprint
 import pynput
 import re
-import asyncio
-
-"""import argparse
-"""
-
-logger = logging.getLogger(__name__)
+import argparse
 
 
 class WorkSpacer:
@@ -17,32 +11,48 @@ class WorkSpacer:
     def __init__(self, args):
         self.i3 = None
         self.args = args
-        self.workspaces_on_outputs = None
+        self.workspaces_on_outputs = {}
         self.workspaces = None
         self.outputs = None
-
+        self.config = None
         self.mouse = pynput.mouse.Controller()
-
         self.mouse_position = None
         self.current_output_name = None
 
     def _connect(self):
         try:
             self.i3 = Connection()
-            re.compile(r'')
-            self.workspaces_on_outputs = [ws for ws in self.i3.get_config().__dict__['config'].split('\n') if ws]
+            self.config = self.i3.get_config().__dict__['config']
+            config_outputs = {}
+            for matchNo, match in enumerate(
+                    re.finditer(r'set (\$[a-zA-Z]+) ((HDMI|DP|VGA)-\d)', self.config, re.MULTILINE), start=1
+            ):
+                config_outputs[match.group(1)] = match.group(2)
+            pprint(config_outputs)
+            config_workspace_names = {}
+            for matchNum, match in enumerate(
+                re.finditer(r'set (\$.*) (\d.*)', self.config, re.MULTILINE)
+            ):
+                config_workspace_names[match.group(1)] = match.group(2)
+            pprint(config_workspace_names)
+            for matchNum, match in enumerate(
+                re.finditer(r'workspace (\$.*) output (\$.*)', self.config, re.MULTILINE)
+            ):
+                if not self.workspaces_on_outputs.keys().__contains__(config_outputs[match.group(2)]):
+                    self.workspaces_on_outputs[config_outputs[match.group(2)]] = []
+                self.workspaces_on_outputs[config_outputs[match.group(2)]].append(config_workspace_names[match.group(1)])
+
         except Exception as exc:
-            logger.error(f"Could not load i3: {exc}", exc_info=exc)
             sys.exit(1)
         self.workspaces = [workspaces for workspaces in  self.i3.get_workspaces()]
-        outputs =  self.i3.get_outputs()
-        #pprint(outputs[1].__dict__)
+        outputs = self.i3.get_outputs()
         self.outputs = [output for output in outputs if output.__dict__["active"] is True]
 
     def run(self):
         self._connect()
         self.mouse_position = self.mouse.position
         self.current_output_name = self._get_workspace_from_courser_position()
+        self.i3.command(f'workspace {self.workspaces_on_outputs[self.current_output_name][self.args]}')
 
     def _get_workspace_from_courser_position(self):
         for output in self.outputs:
@@ -68,12 +78,18 @@ class WorkSpacer:
         return [workspace for workspace in self.workspaces if workspace.__dict__['output'] == output]
 
 
-def tst():
-    ws = WorkSpacer('')
+def main():
+    parser = argparse.ArgumentParser(
+        description="Dynamic changes the workspace, based on what output your cursoer is on."
+    )
+    parser.add_argument("-i", "--index", type=int,
+                        help="the number index of the workspace that should be openend. 1 = workspace 1 etc.")
+    ws = WorkSpacer(parser.parse_args())
     ws.run()
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    tst()
+    main()
 
 
