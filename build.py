@@ -22,7 +22,7 @@ def main():
     )
 
     args = parser.parse_args()
-
+    subprocess.call(['rm', 'dist/*'])
     subprocess.call(['python3', 'setup.py', 'sdist', 'bdist_wheel'])
     if args.test:
         subprocess.call(['twine', 'upload', '--config-file', '.pypirc', '--repository', 'testpypi', 'dist/*'])
