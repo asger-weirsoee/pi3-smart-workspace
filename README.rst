@@ -17,6 +17,13 @@ Usage
    requred arguments:
      -i, --index      the number index of the workspace that should be openend. 1 =  first workspace in config etc.
 
+Current limitations
+--------------------
+The way this script is set up, it is sending commands in strings. and thus we cannot keep track of each workspace other than by its name. This is a limmitiaion as there is no way for us to know if the workspace "1" is reffering to the workspace 1 assigned to output DS-1 or output HDMI-2..
+
+So in order to differentiate between these, you need to name your workspaces new names for each output. See example configuration under #Installation.
+
+
 Installation
 ------------
 
