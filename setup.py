@@ -4,7 +4,7 @@ with open('README.rst', 'r') as fh:
 
 setup(
     name='pi3-smart-workspace',
-    version='0.1.2',
+    version='0.1.3',
     packages=['pi3'],
     url='https://github.com/GeneralDenmark/PyOutputHandler',
     license='Apache-2.0 License ',
@@ -23,7 +23,7 @@ setup(
     author_email='asger@weirsoe.dk',
     description='Simple program that looks through the i3 config and finds the bound workspaces for each output, and then opening that workspace on the output, that the mouse is currently on.',
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Alpha",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 3",
