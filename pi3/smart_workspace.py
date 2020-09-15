@@ -3,6 +3,7 @@ import sys
 import pynput
 import re
 import argparse
+import pprint
 
 
 class WorkSpacer:
@@ -24,7 +25,7 @@ class WorkSpacer:
             self.config = self.i3.get_config().__dict__['config']
             config_outputs = {}
             for matchNo, match in enumerate(
-                    re.finditer(r'set (\$[a-zA-Z]+) ((HDMI|DP|VGA)-\d)', self.config, re.MULTILINE), start=1
+                    re.finditer(r'set (\$[a-zA-Z]+) ((HDMI|DP|VGA|eDP)(-|)\d)', self.config, re.MULTILINE), start=1
             ):
                 config_outputs[match.group(1)] = match.group(2)
             config_workspace_names = {}
@@ -38,8 +39,11 @@ class WorkSpacer:
                 if not self.workspaces_on_outputs.keys().__contains__(config_outputs[match.group(2)]):
                     self.workspaces_on_outputs[config_outputs[match.group(2)]] = []
                 self.workspaces_on_outputs[config_outputs[match.group(2)]].append(config_workspace_names[match.group(1)])
+            self.print_if_debug("All workspaces with outputs")
+            self.print_if_debug(self.workspaces_on_outputs)
 
         except Exception as exc:
+            self.print_if_debug(exc)
             sys.exit(1)
         self.workspaces = [workspaces for workspaces in  self.i3.get_workspaces()]
         outputs = self.i3.get_outputs()
@@ -79,11 +83,17 @@ class WorkSpacer:
     def _get_workspaces_for_output(self, output):
         return [workspace for workspace in self.workspaces if workspace.__dict__['output'] == output]
 
+    def print_if_debug(self, to_print):
+        if self.args.debug:
+            pprint.pprint(to_print)
+
 
 def main():
     parser = argparse.ArgumentParser(
         description="Dynamic changes the workspace, based on what output your cursoer is on."
     )
+    parser.add_argument('-d', '--debug', action='store_true',
+                        help='Turn on debug mode.')
 
     required_group = parser.add_argument_group('Required', '')
     required_group.add_argument("-i", "--index", type=int, required=True,
@@ -94,7 +104,7 @@ def main():
                         help="if present, moves the current active window to target workspace")
     shift_group.add_argument('-k', '--keep-with-it', action='store_true',
                         help='if present, moves with the ')
-
+    pprint.pprint(parser.parse_args().__dict__)
     WorkSpacer(parser.parse_args()).run()
 
 
