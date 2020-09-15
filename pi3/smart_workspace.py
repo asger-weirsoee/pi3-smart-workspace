@@ -104,7 +104,7 @@ def main():
                         help="if present, moves the current active window to target workspace")
     shift_group.add_argument('-k', '--keep-with-it', action='store_true',
                         help='if present, moves with the ')
-    pprint.pprint(parser.parse_args().__dict__)
+    # pprint.pprint(parser.parse_args().__dict__)
     WorkSpacer(parser.parse_args()).run()
 
 
