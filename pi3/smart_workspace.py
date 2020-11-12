@@ -25,7 +25,7 @@ class WorkSpacer:
             self.config = self.i3.get_config().__dict__['config']
             config_outputs = {}
             for matchNo, match in enumerate(
-                    re.finditer(r'set (\$[a-zA-Z]+) ((HDMI|DP|VGA|eDP)(-|)\d)', self.config, re.MULTILINE), start=1
+                    re.finditer(r'set (\$[a-zA-Z]+) ((HDMI|DP|VGA|eDP)(-|)(\d|$))', self.config, re.MULTILINE), start=1
             ):
                 config_outputs[match.group(1)] = match.group(2)
             config_workspace_names = {}
@@ -97,13 +97,13 @@ def main():
 
     required_group = parser.add_argument_group('Required', '')
     required_group.add_argument("-i", "--index", type=int, required=True,
-                        help="the number index of the workspace that should be openend. 1 =  first workspace in config etc.")
+                        help="The indexed workspace for the output where the cursor is currently located")
 
     shift_group = parser.add_argument_group('Shift', 'manipulate the active window')
     shift_group.add_argument("-s", "--shift", action='store_true',
-                        help="if present, moves the current active window to target workspace")
+                        help="Moves the active window to the index workspace")
     shift_group.add_argument('-k', '--keep-with-it', action='store_true',
-                        help='if present, moves with the ')
+                        help='Moves the active window to the index workspace, and moves with it')
     # pprint.pprint(parser.parse_args().__dict__)
     WorkSpacer(parser.parse_args()).run()
 
