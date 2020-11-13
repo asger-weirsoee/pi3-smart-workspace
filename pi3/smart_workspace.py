@@ -31,7 +31,7 @@ class WorkSpacer:
         self.current_output_name = None
 
     def _connect(self):
-        self.print_if_debug('all available outputs on device')
+        self.print_if_debug('All available outputs on device')
         self.print_if_debug(names_for_outputs)
         try:
             self.i3 = Connection()
@@ -55,6 +55,8 @@ class WorkSpacer:
             for matchNum, match in enumerate(
                     re.finditer(r'workspace (\$.*) output (\$.*)', self.config, re.MULTILINE)
             ):
+                if not config_outputs.keys().__contains__(match.group(2)):
+                    continue  # Not an active display, skip it
                 if not self.workspaces_on_outputs.keys().__contains__(config_outputs[match.group(2)]):
                     self.workspaces_on_outputs[config_outputs[match.group(2)]] = []
                 self.workspaces_on_outputs[config_outputs[match.group(2)]].append(
@@ -90,19 +92,19 @@ class WorkSpacer:
             y_offset = output.__dict__["rect"].__dict__["y"]
 
             if x_offset == 0 and y_offset == 0:
-                if x_offset <= self.mouse_position[0] <= x_offset + width and y_offset <=\
+                if x_offset <= self.mouse_position[0] <= x_offset + width and y_offset <= \
                         self.mouse_position[1] <= y_offset + height:
                     return output.__dict__["name"]
             elif x_offset == 0:
-                if x_offset <= self.mouse_position[0] <= x_offset + width and y_offset <\
+                if x_offset <= self.mouse_position[0] <= x_offset + width and y_offset < \
                         self.mouse_position[1] <= y_offset + height:
                     return output.__dict__["name"]
             elif y_offset == 0:
-                if x_offset < self.mouse_position[0] <= x_offset + width and y_offset <=\
+                if x_offset < self.mouse_position[0] <= x_offset + width and y_offset <= \
                         self.mouse_position[1] <= y_offset + height:
                     return output.__dict__["name"]
             else:
-                if x_offset < self.mouse_position[0] <= x_offset + width and y_offset <\
+                if x_offset < self.mouse_position[0] <= x_offset + width and y_offset < \
                         self.mouse_position[1] <= y_offset + height:
                     return output.__dict__["name"]
 
