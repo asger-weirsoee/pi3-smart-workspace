@@ -118,7 +118,7 @@ class WorkSpacer:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Dynamic changes the workspace, based on what output your cursor is on."
+        description="Changes the workspace, based on what output your cursor is on."
     )
     parser.add_argument('-d', '--debug', action='store_true',
                         help='Turn on debug mode.')

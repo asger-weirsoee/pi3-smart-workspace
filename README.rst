@@ -10,18 +10,24 @@ Usage
 
 ::
 
-   usage: pi3-smart-switch [-h] -i num
-   Openens the [i] number of workspace assigned in the config, on the output the cursor is currently on.
+    usage: pi3-smart-workspace [-h] [-d] -i INDEX [-s] [-k]
 
+    Changes the workspace, based on what output your cursor is on.
 
-   requred arguments:
-     -i, --index      the number index of the workspace that should be openend. 1 =  first workspace in config etc.
+    optional arguments:
+      -h, --help            show this help message and exit
+      -d, --debug           Turn on debug mode.
 
-Current limitations
---------------------
-The way this script is set up, it is sending commands in strings. and thus we cannot keep track of each workspace other than by its name. This is a limmitiaion as there is no way for us to know if the workspace "1" is reffering to the workspace 1 assigned to output DS-1 or output HDMI-2..
+    Required:
 
-So in order to differentiate between these, you need to name your workspaces new names for each output. See example configuration under #Installation.
+      -i INDEX, --index INDEX
+                            The indexed workspace for the output where the cursor is currently located
+
+    Shift:
+      manipulate the active window
+
+      -s, --shift           Moves the active window to the index workspace
+      -k, --keep-with-it    Moves the active window to the index workspace, and moves with it
 
 
 Installation
@@ -37,97 +43,79 @@ Example config to be inserted into your i3 config.
 
 ::
 
-    	# Displays
-	set $primary DP-2
-	set $left HDMI-0
-	set $right HDMI-1
+    # Displays
+    set $primary eDP
+    set $top HDMI-A-0
+    set $bottom HDMI2
 
-	# Workspaces
-	set $ws1 1:1:Code
-	set $ws2 2:2:Code
-	set $ws3 3:3:Code
-	set $ws4 4:4:Code
-	set $ws5 5:5:Code
-	set $ws6 6:6:Code
-	set $ws7 7:7:Code
-	set $ws8 8:8:Code
+    # Workspaces
+    set $ws1 1:1
+    ... # And so on
+    set $ws{n} {n}:{n}
 
-	set $LeftWs1 1:1:Browser
-	set $LeftWs2 2:2:Left
-	set $LeftWs3 3:3:Left
-	set $LeftWs4 4:4:Left
-	set $LeftWs5 5:5:Left
-	set $LeftWs6 6:6:Left
-	set $LeftWs7 7:7:Left
-	set $LeftWs8 8:8:Left
+    set $TopWs1 {n+1}:1
+    ... # and so on
+    set $TopWs{k} {n+1+k}:{k}
 
-	set $RightWs1 1:1:Right
-	set $RightWs2 2:2:Right
-	set $RightWs3 3:3:Right
-	set $RightWs4 4:4:Right
-	set $RightWs5 5:5:Right
-	set $RightWs6 6:6:Right
-	set $RightWs7 7:7:Right
-	set $RightWs8 8:8:Right
+    set $BottomWs1 {k+1}:1
+    ... # and so on
+    set $BottomWs{q} {k+1+q}:{q}
 
-	# Workspace assignments
-	workspace $ws1 output $primary
-	workspace $ws2 output $primary
-	workspace $ws3 output $primary
-	workspace $ws4 output $primary
-	workspace $ws5 output $primary
-	workspace $ws6 output $primary
-	workspace $ws7 output $primary
-	workspace $ws8 output $primary
+    workspace $ws1 output $primary
+    ... # and so on
+    workspace $ws{n} output $primary
 
-	workspace $LeftWs1 output $left
-	workspace $LeftWs2 output $left
-	workspace $LeftWs3 output $left
-	workspace $LeftWs4 output $left
-	workspace $LeftWs5 output $left
-	workspace $LeftWs6 output $left
-	workspace $LeftWs7 output $left
-	workspace $LeftWs8 output $left
+    workspace $TopWs1 output $top
+    ... # and so on
+    workspace $TopWs{k} output $top
 
-	workspace $RightWs1 output $right
-	workspace $RightWs2 output $right
-	workspace $RightWs3 output $right
-	workspace $RightWs4 output $right
-	workspace $RightWs5 output $right
-	workspace $RightWs6 output $right
-	workspace $RightWs7 output $right
-	workspace $RightWs8 output $right
+    workspace $BottomWs1 output $bottom
+    ... # and so on
+    workspace $BottomWs{q} output $bottom
 
-	# Shift workspace
-	bindsym $mod+1 exec pi3-smart-workspace -i 1
-	bindsym $mod+2 exec pi3-smart-workspace -i 2
-	bindsym $mod+3 exec pi3-smart-workspace -i 3
-	bindsym $mod+4 exec pi3-smart-workspace -i 4
-	bindsym $mod+5 exec pi3-smart-workspace -i 5
-	bindsym $mod+6 exec pi3-smart-workspace -i 6
-	bindsym $mod+7 exec pi3-smart-workspace -i 7
-	bindsym $mod+8 exec pi3-smart-workspace -i 8
+    # Shift workspace
+    bindsym $mod+1 exec --no-startup-id pi3-smart-workspace -i 1
+    bindsym $mod+2 exec --no-startup-id pi3-smart-workspace -i 2
+    bindsym $mod+3 exec --no-startup-id pi3-smart-workspace -i 3
+    bindsym $mod+4 exec --no-startup-id pi3-smart-workspace -i 4
+    bindsym $mod+5 exec --no-startup-id pi3-smart-workspace -i 5
+    bindsym $mod+6 exec --no-startup-id pi3-smart-workspace -i 6
+    bindsym $mod+7 exec --no-startup-id pi3-smart-workspace -i 7
+    bindsym $mod+8 exec --no-startup-id pi3-smart-workspace -i 8
 
-	# Move focused container to workspace
-	bindsym $mod+Ctrl+1 exec pi3-smart-workspace -i 1 -s
-	bindsym $mod+Ctrl+2 exec pi3-smart-workspace -i 2 -s
-	bindsym $mod+Ctrl+3 exec pi3-smart-workspace -i 3 -s
-	bindsym $mod+Ctrl+4 exec pi3-smart-workspace -i 4 -s
-	bindsym $mod+Ctrl+5 exec pi3-smart-workspace -i 5 -s
-	bindsym $mod+Ctrl+6 exec pi3-smart-workspace -i 6 -s
-	bindsym $mod+Ctrl+7 exec pi3-smart-workspace -i 7 -s
-	bindsym $mod+Ctrl+8 exec pi3-smart-workspace -i 8 -s
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 exec --no-startup-id pi3-smart-workspace -i 1 -s
+    bindsym $mod+Shift+2 exec --no-startup-id pi3-smart-workspace -i 2 -s
+    bindsym $mod+Shift+3 exec --no-startup-id pi3-smart-workspace -i 3 -s
+    bindsym $mod+Shift+4 exec --no-startup-id pi3-smart-workspace -i 4 -s
+    bindsym $mod+Shift+5 exec --no-startup-id pi3-smart-workspace -i 5 -s
+    bindsym $mod+Shift+6 exec --no-startup-id pi3-smart-workspace -i 6 -s
+    bindsym $mod+Shift+7 exec --no-startup-id pi3-smart-workspace -i 7 -s
+    bindsym $mod+Shift+8 exec --no-startup-id pi3-smart-workspace -i 8 -s
 
-	# Move to workspace with focused container
-	bindsym $mod+Shift+1 exec pi3-smart-workspace -i 1 -sk
-	bindsym $mod+Shift+2 exec pi3-smart-workspace -i 2 -sk
-	bindsym $mod+Shift+3 exec pi3-smart-workspace -i 3 -sk
-	bindsym $mod+Shift+4 exec pi3-smart-workspace -i 4 -sk
-	bindsym $mod+Shift+5 exec pi3-smart-workspace -i 5 -sk
-	bindsym $mod+Shift+6 exec pi3-smart-workspace -i 6 -sk
-	bindsym $mod+Shift+7 exec pi3-smart-workspace -i 7 -sk
-	bindsym $mod+Shift+8 exec pi3-smart-workspace -i 8 -sk
+    # Move to workspace with focused container
+    bindsym $mod+Ctrl+1 exec --no-startup-id pi3-smart-workspace -i 1 -sk
+    bindsym $mod+Ctrl+2 exec --no-startup-id pi3-smart-workspace -i 2 -sk
+    bindsym $mod+Ctrl+3 exec --no-startup-id pi3-smart-workspace -i 3 -sk
+    bindsym $mod+Ctrl+4 exec --no-startup-id pi3-smart-workspace -i 4 -sk
+    bindsym $mod+Ctrl+5 exec --no-startup-id pi3-smart-workspace -i 5 -sk
+    bindsym $mod+Ctrl+6 exec --no-startup-id pi3-smart-workspace -i 6 -sk
+    bindsym $mod+Ctrl+7 exec --no-startup-id pi3-smart-workspace -i 7 -sk
+    bindsym $mod+Ctrl+8 exec --no-startup-id pi3-smart-workspace -i 8 -sk
 
+
+Future work
+-----------
+Here a few ideas on how to improve pi3-smart-workspace could be improved in the future.
+If anyone wants to submit a pr that solves one of the problems stated below feel free to do so :)
+
+
+-  Save the outputs and the mapped outputs in a json file, instead of looking through the config every time a button is pressed.
+    This would greatly reduce the cost of running this program, if we could just look up the required value in the json instead of the whole i3 config.
+
+    In order for this to be a thing, we need to transition away from looking at active display, have the user set a exec_always and out indexer in their i3 config.
+
+-
 
 Credits
 -------
