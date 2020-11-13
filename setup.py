@@ -4,7 +4,7 @@ with open('README.rst', 'r') as fh:
 
 setup(
     name='pi3-smart-workspace',
-    version='0.1.6',
+    version='0.1.7',
     packages=['pi3'],
     url='https://github.com/GeneralDenmark/PyOutputHandler',
     license='Apache-2.0 License ',
