@@ -38,8 +38,8 @@ class WorkSpacer:
             self.config = self.i3.get_config().__dict__['config']
             config_outputs = {}
             for matchNo, match in enumerate(
-                    re.finditer(r'set (\$[a-zA-Z]+) (' +
-                                names_for_outputs + ')', self.config, re.MULTILINE), start=1
+                    re.finditer(r'set (\$[a-zA-Z0-9]+) (' + names_for_outputs + ')',
+                                self.config, re.MULTILINE), start=1
             ):
                 config_outputs[match.group(1)] = match.group(2)
             self.print_if_debug('All outputs listed in the config, matched on available configs')
